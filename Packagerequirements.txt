@@ -1,0 +1,7 @@
+go get go.mongodb.org/mongo-driver/mongo
+go mod tidy
+
+go build .
+./urlshortner
+
+go run main.go
