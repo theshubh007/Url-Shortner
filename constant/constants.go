@@ -3,7 +3,7 @@ package constant
 const (
 	UrlShortnerPath = "/short"
 
-	RedirectUrlPath = "/shubh/:code"
+	RedirectUrlPath = "/:code"
 )
 
 const (

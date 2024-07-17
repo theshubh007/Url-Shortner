@@ -25,8 +25,8 @@ type AppRoutes []AppRoute
 
 // UrlShortner function sets up the URL shortening related routes within a router group.
 // It maps each route in the urlShortner slice to its respective HTTP method and handler function
-func (r Router) UrlShortenerRoutes(rg *gin.RouterGroup) {
-	orderRouteGrouping := rg.Group("/url")
+func (r Router) UrlShortenerRoutes(rg *gin.Engine) {
+	orderRouteGrouping := rg.Group("/shubh")
 	for _, route := range urlShortner {
 		switch route.Method {
 		case http.MethodGet:
@@ -49,7 +49,6 @@ func (r Router) UrlShortenerRoutes(rg *gin.RouterGroup) {
 	}
 }
 
-
 // ClientRoutes function initializes the router, sets up the routes, and starts the server.
 // It uses environment variables to get the API version and port number for the server.
 func ClientRoutes() {
@@ -57,8 +56,8 @@ func ClientRoutes() {
 	r := Router{
 		router: gin.Default(),
 	}
-	v1 := r.router.Group(os.Getenv("API_VERSION"))
-	r.UrlShortenerRoutes(v1)
+	// v1 := r.router.Group(os.Getenv("API_VERSION"))
+	r.UrlShortenerRoutes(r.router)
 
 	if err := r.router.Run(":" + os.Getenv("PORT")); err != nil {
 		log.Println("Failed to run server: %v", err)
