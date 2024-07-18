@@ -1,21 +1,30 @@
+# Use an official Golang image as a parent image
+FROM golang:1.20-alpine AS build
 
-# Start from the latest golang base image
-FROM golang:latest
+# Set the working directory inside the container
+WORKDIR /urlshortner
 
-
-# Set the Current Working Directory inside the container
-WORKDIR /app
-
-# Copy everything from the current directory to the Working Directory inside the container
+# Copy the source code to the workspace
 COPY . .
 
-# Build the Go app
-RUN go build -o main .
 
-# Expose port 8080 to the outside world
+# Compile the Go application
+RUN go build -o app .
+
+# Use a lightweight image to run the Go application
+FROM alpine:latest
+
+# Set the working directory inside the container
+WORKDIR /root/
+
+# Copy the binary executable from the build stage
+COPY --from=build /urlshortner/app .
+
+# Copy the .env file from the build stage
+COPY --from=build /urlshortner/.env .
+
+# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Command to run the executable
-CMD ["./main"]
-
-
+# Run the Go application when the container launches
+CMD ["./app"]
