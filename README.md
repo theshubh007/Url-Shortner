@@ -24,8 +24,6 @@ urlshortner is a simple and efficient URL shortening service built using Go and 
 
 ```
   https://github.com/theshubh007/Url-Shortner
-
-  cd urlshortner
 ```
 
 #### 2.Install dependencies:
